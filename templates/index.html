@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+<h2>Generate Population</h2>
+<form action="{{ url_for('hello') }}" method=post>
+<dl>
+<dt>Chromosomes Quantity:
+<dd><input type=text name=quantity>
+<dt>Chromosome Size:
+<dd><input type=text name=size>
+<dd><input type=submit value=Generate>
+</dl>
+</form>
+{% endblock %}
+
