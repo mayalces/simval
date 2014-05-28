@@ -11,7 +11,7 @@ app.config.update(
 
 # controllers
 @app.route("/")
-def hello():
+def index():
 	error = None
 	return render_template('index.html', error=error)
 
