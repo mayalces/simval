@@ -4,23 +4,40 @@
 <div class="container">
 	<div class="row clearfix">
 		<div class="col-md-12 column">
-			<form class="form-horizontal" role="form">
+			<form class="form-horizontal" action="{{ url_for('index') }}" role="form" method="POST">
 				<div class="form-group">
 					 <label for="quantity" class="col-sm-4 control-label">Chromosome Quantity:</label>
 					<div class="col-sm-2">
-						<input type="text" class="form-control" id="quantity_id" />
+						<input type="text" class="form-control" id="quantity1" name="quantity_id" placeholder="4"/>
 					</div>
 				</div>
 				<div class="form-group">
 					 <label for="size" class="col-sm-4 control-label">Chromosome Size:</label>
 					<div class="col-sm-2">
-						<input type="text" class="form-control" id="size_id" />
+						<input type="text" class="form-control" id="size1" name="size_id" placeholder="2500"/>
 					</div>
 				</div>
-				
+				<div class="form-group">
+					 <label for="size" class="col-sm-4 control-label">Ploidy:</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="ploidy1" name="ploidy_id" placeholder="2" />
+					</div>
+				</div>
+				<div class="form-group">
+					 <label for="osize" class="col-sm-4 control-label">Offspring Size:</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="off1" name="off_id" placeholder="200"/>
+					</div>
+				</div>
+				<div class="form-group">
+					 <label for="percent" class="col-sm-4 control-label">Empty Data Percentage:</label>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="p_null" name="p_null_id" placeholder="5"/>
+					</div>
+				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-4 col-sm-2">
-						 <button type="submit" class="btn btn-default">Generate</button>
+						 <button type="submit" class="btn btn-default" >Generate</button>
 					</div>
 				</div>
 			</form>
@@ -30,43 +47,5 @@
 
 
 
-
-<!--
-	<div class="col-lg-5 col-offset-6 centered"> 
-		<div class="well well-lg">
-			<form action="{{ url_for('index') }}" class="form-inline" role="form" method=post>
-				<fieldset>
-					<legend>Generate Population</legend>
-						<div class="form-group">
-							<div class="row">
-								<div class="col-xs-4">
-									<label class="class_type" for="quantity">Chromosome Quantity:</label>
-								</div>
-								<div class="col-xs-2">
-									<input id="quantity_id" name="quantity" type="text" placeholder="4" class="form-control input-sm">
-								</div>
-							</div>
-						</div>
-
-						<!-- Text input 
-						<div class="form-group">
-							<div class="row">
-								<div class="col-xs-4">
-									<label class="class_type" for="size">Chromosome Size:</label>
-								</div>
-								<div class="col-xs-2">
-									<input id="size_id" name="size" type="text" placeholder="2500" class="form-control input-sm">
-								</div>
-							</div>
-						</div>
-	   
-						<div class="control-group">
-							<button id="generate_id" name="generate" type="submit" class="btn btn-default">Generate</button>
-						</div>
-
-				</fieldset>
-			</form>
-		</div>
-	</div>  -->
 {% endblock %}
 

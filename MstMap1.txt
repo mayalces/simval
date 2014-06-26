@@ -1,0 +1,11 @@
+locus_name	i1	i2	i3	i4	i5	i6	i7	i8	i9	
+m590313	A	B	A	A	B	B	B	B	A	A	
+m179183	B	B	B	B	B	B	B	B	B	B	
+m699302	A	B	B	B	B	B	B	B	B	B	
+m401686	A	B	B	A	B	B	B	B	B	B	
+m48483	B	B	A	A	B	B	B	B	B	A	
+m92613	A	A	B	A	B	B	B	B	B	B	
+m309663	B	B	B	B	B	B	B	B	A	A	
+m434089	B	A	A	B	B	B	B	B	B	B	
+m497895	B	B	B	A	B	B	B	B	B	B	
+m97996	B	B	B	B	B	B	B	B	B	B	
