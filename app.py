@@ -14,20 +14,20 @@ app.config.update(
 )
 
 # controllers
-
-@app.route("/", methods=['GET','POST'])
+@app.route("/", methods=['POST', 'GET'])
 def index():
 	print "Entre a Index"
 	error = ""
 	if request.method == 'POST':
 		print "Entre a If"
+		
 	else:
 		error = 'Error!!'
-		
+	
 	return render_template('index.html', error=error)
 	
 @app.route("/sim", methods=['POST', 'GET'])
-def simulator():
+def simulation():
 	print "Entre a Sim"
 	error = ""
 	if request.method == 'POST':
@@ -45,19 +45,6 @@ def simulator():
 		generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, m_rate, e_rate, seed)
 	else:
 		error = 'Error!!'
-	
-	return render_template('simulator.html', error=error)
-	
-@app.route("/val", methods=['GET','POST'])
-def validator():
-	print "Entre a Val"
-	error = ""
-	if request.method == 'POST':
-		print "Entre a If"
-	else:
-		error = 'Error!!'
-		
-	return render_template('validator.html', error=error)
 
 
 def generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, m_rate, e_rate, seed):
