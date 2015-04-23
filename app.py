@@ -27,7 +27,7 @@ def index():
 	return render_template('index.html', error=error)
 	
 @app.route("/sim", methods=['POST', 'GET'])
-def simulation():
+def simulator():
 	print "Entre a Sim"
 	error = ""
 	if request.method == 'POST':
@@ -45,6 +45,17 @@ def simulation():
 		generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, m_rate, e_rate, seed)
 	else:
 		error = 'Error!!'
+
+@app.route("/val", methods=['GET','POST'])
+def validator():
+	print "Entre a Val"
+	error = ""
+	if request.method == 'POST':
+		print "Entre a If"
+	else:
+		error = 'Error!!'
+	
+	return render_template('validator.html', error=error)
 
 
 def generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, m_rate, e_rate, seed):

@@ -1,13 +1,31 @@
 <!doctype html>
 <head>
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"> -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
 <!-- Optional theme -->
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+<!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css"> -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script> -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#myTabs li:eq(0) a").tab('show');
+	});
+	
+</script>
+
+<style type="text/css">
+	.bs-example{
+		margin: 20px;
+	}
+</style>
+
 <title>GSGMV</title>
 <!--<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}"> -->
 </head>
@@ -18,32 +36,7 @@
 		</div>
 	
 		<div class="panel-body">
-			<div class="container">
-				<div class="row clearfix">
-					<div class="col-md-12 column">
-						<div class="tabbable" id="tabs-726442">
-							<ul class="nav nav-tabs">
-								<li class="active">
-									<a href="#simulator" data-toggle="tab">Simulator</a>
-								</li>
-								<li>
-									<a href="#validator" data-toggle="tab">Validator</a>
-								</li>
-							</ul>
-							<div class="tab-content">
-								<div class="tab-pane active" id="panel-sim">
-									{% block body %}{% endblock %}
-								</div>
-								<div class="tab-pane" id="panel-val">
-									<p>
-										I'm in Section 1.
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			{% block body %}{% endblock %}
 		</div>
 	</div>
 </body>
