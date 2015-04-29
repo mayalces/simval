@@ -1,10 +1,11 @@
 import os
 import numpy as np
-import logic
-from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash, make_response, Response
-# from Parent import Parent
-# from Offspring import Offspring
-# from Utilities import Utilities
+import zipfile
+from logic.Parent import Parent
+from logic.Offspring import Offspring
+from logic.Utilities import Utilities
+from logic.Validator import Validator
+from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash, make_response, Response, send_file
 
 # initialization
 app = Flask(__name__)
@@ -17,10 +18,9 @@ app.config.update(
 @app.route("/", methods=['POST', 'GET'])
 def index():
 	print "Entre a Index"
-	error = ""
+	error = ""	
 	if request.method == 'POST':
-		print "Entre a If"
-		
+		print "Entre al POST"	
 	else:
 		error = 'Error!!'
 	
@@ -32,19 +32,21 @@ def simulator():
 	error = ""
 	if request.method == 'POST':
 		print "Entre a If"
-		chrom_quantity = request.form['quantity_id'] # cantidad de cromosomas, por defecto 2
-		chrom_size = request.form['size_id'] # tamano de cada cromosoma, todos de igual tamano, por defecto 1Morgan
-		pop_size = request.form['off_id'] # tamano de la poblacion, por defecto 100
-		marker_size = request.form['mark_id'] # Cantidad de marcadores, por defecto 100
-		ploidy = request.form['ploidy_id'] # ploidia, por defecto diploides
-		r_rate = request.form['r_rate_id'] # tasa de recombinacion, por defecto 0.1
-		m_rate = request.form['m_rate_id'] # tasa de mutacion, por defecto 0.001
-		e_rate = request.form['e_rate_id'] # porcentaje de poblacion nula, por defecto 5%
-		seed = request.form['s_id'] # semilla random, por defecto 2154
+		chrom_quantity = int(request.form['quantity_id']) # cantidad de cromosomas, por defecto 2
+		chrom_size = int(request.form['size_id']) # tamano de cada cromosoma, todos de igual tamano, por defecto 1Morgan
+		pop_size = int(request.form['off_id']) # tamano de la poblacion, por defecto 100
+		marker_size = int(request.form['mark_id']) # Cantidad de marcadores, por defecto 100
+		ploidy = int(request.form['ploidy_id']) # ploidia, por defecto diploides
+		r_rate = float(request.form['r_rate_id']) # tasa de recombinacion, por defecto 0.1
+		m_rate = float(request.form['m_rate_id']) # tasa de mutacion, por defecto 0.001
+		e_rate = int(request.form['e_rate_id']) # porcentaje de poblacion nula, por defecto 5%
+		seed = int(request.form['s_id']) # semilla random, por defecto 2154
 		print "Antes de generate"
-		generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, m_rate, e_rate, seed)
+		myzip = generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, m_rate, e_rate, seed)
 	else:
 		error = 'Error!!'
+	
+	return send_file(myzip, attachment_filename="Files.zip", as_attachment=True)
 
 @app.route("/val", methods=['GET','POST'])
 def validator():
@@ -82,7 +84,7 @@ def generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, 
 	offs = ch.generate_offspring_f1(pop_size, parent_a, parent_b, chrom_quantity, chrom_size, chrom_pos_vec, marker_size, r_rate, ploidy)
 	offs_t = ch.generate_error(e_rate, ch.transform_matrix(offs))
 	
-	pos = [x for x in range(markers_quantity * chrom_quantity)]
+	pos = [x for x in range(marker_size * chrom_quantity)]
 	#print pos
 	mix = list(pos)
 	np.random.shuffle(mix)
@@ -98,6 +100,19 @@ def generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, 
 	
 	result5 = ut.generate_map_disto_file(new_pop, mix, "MapDisto" + ".xls")
 	result6 = ut.generate_map_disto_file(offs_t, pos, "ResultMD" + ".txt")
+	
+	with zipfile.ZipFile('Files.zip', 'a') as myzip:
+		try:
+			myzip.write('OneMap.raw')
+			myzip.write('ResultOM.raw')
+			myzip.write('MstMap.txt')
+			myzip.write('ResultMM.txt')
+			myzip.write('MapDisto.xls')
+			myzip.write('ResultMD.txt')
+		finally:
+			myzip.close()
+	
+	return myzip
 	
 # launch
 if __name__ == "__main__":
