@@ -9,6 +9,10 @@ Class Utilities: This class allow the creation of the reference and alternate ga
 import random
 import numpy as np
 import copy
+#try:
+#	from cStringIO	import StringIO
+#except:
+#	from StringIO	import StringIO
 
 
 class Utilities():
@@ -19,6 +23,7 @@ class Utilities():
 
 	def generate_one_map_file(self, data, meta_data, type, fileName):
 		result_file = open(fileName, "a")
+		#result_file = StringIO()
 
 		result_file.write('data type' + ' ' + type + ' ' + 'intercross')
 		result_file.write('\n')
@@ -191,8 +196,6 @@ class Utilities():
 if __name__ == '__main__':
 
 	u = Utilities()
-	for i in range(10):
-		print i
 	# u.real_data_format("pruebas/DatosReales/caroteno.txt", "pruebas/DatosReales/carotenoMD.xls", "MD")
 	# u.real_data_format("pruebas/DatosReales/caroteno.txt", "pruebas/DatosReales/carotenoOM.raw", "OM")
 #     a = [1, 2, 3, 4, 5, 6, 7, 8, 9]

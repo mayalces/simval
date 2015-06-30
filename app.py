@@ -5,7 +5,9 @@ from logic.Parent import Parent
 from logic.Offspring import Offspring
 from logic.Utilities import Utilities
 from logic.Validator import Validator
+from io import BytesIO
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash, make_response, Response, send_file
+#from wtforms import Form, BooleanField, TextField, PasswordField, validators
  
 # initialization
 app = Flask(__name__)
@@ -27,7 +29,7 @@ def index():
 	
 	return render_template('index.html', error=error)
 	
-@app.route("/sim", methods=['POST', 'GET'])
+@app.route("/#panel-sim", methods=['POST', 'GET'])
 def simulator():
 	print "Entre a Sim"
 	error = ""
@@ -47,9 +49,12 @@ def simulator():
 	else:
 		error = 'Error!!'
 		
-	return send_file(myzip, attachment_filename="Files.zip", as_attachment=True)
+	try:
+		return send_file(myzip, attachment_filename="Files.zip", as_attachment=True)
+	except Exception:
+		pass
 
-@app.route("/val", methods=['GET','POST'])
+@app.route("/#panel-val", methods=['GET','POST'])
 def validator():
 	print "Entre a Val"
 	error = ""
@@ -102,18 +107,21 @@ def generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, 
 	result5 = ut.generate_map_disto_file(new_pop, mix, "MapDisto" + ".xls")
 	result6 = ut.generate_map_disto_file(offs_t, pos, "ResultMD" + ".txt")
 	
-	with zipfile.ZipFile('Files.zip', 'a') as myzip:
-		try:
-			myzip.write('OneMap.raw')
-			myzip.write('ResultOM.raw')
-			myzip.write('MstMap.txt')
-			myzip.write('ResultMM.txt')
-			myzip.write('MapDisto.xls')
-			myzip.write('ResultMD.txt')
-		except (RuntimeError, TypeError, NameError):
-			pass
+	zip_file = BytesIO()
+	
+	with zipfile.ZipFile(zip_file, 'a') as myzip:
+		myzip.write('OneMap.raw')
+		myzip.write('ResultOM.raw')
+		myzip.write('MstMap.txt')
+		myzip.write('ResultMM.txt')
+		myzip.write('MapDisto.xls')
+		myzip.write('ResultMD.txt')
+	
+	zip_file.seek(0)
 		
-	return myzip
+	print "Despues de zipfile"
+		
+	return zip_file
 	
 # launch
 if __name__ == "__main__":
