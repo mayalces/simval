@@ -9,10 +9,6 @@ Class Utilities: This class allow the creation of the reference and alternate ga
 import random
 import numpy as np
 import copy
-#try:
-#	from cStringIO	import StringIO
-#except:
-#	from StringIO	import StringIO
 
 
 class Utilities():
@@ -22,8 +18,7 @@ class Utilities():
 		pass
 
 	def generate_one_map_file(self, data, meta_data, type, fileName):
-		result_file = open(fileName, "a")
-		#result_file = StringIO()
+		result_file = open(fileName, "w")
 
 		result_file.write('data type' + ' ' + type + ' ' + 'intercross')
 		result_file.write('\n')
@@ -56,7 +51,7 @@ class Utilities():
 
 	def generate_map_disto_file(self, data, meta_data, fileName):
 
-		result_file = open(fileName, "a")
+		result_file = open(fileName, "w")
 
 		x = 0
 
@@ -83,7 +78,7 @@ class Utilities():
 
 	def generate_mst_map_file(self, data, meta_data, fileName):
 
-		result_file = open(fileName, "a")
+		result_file = open(fileName, "w")
 
 		result_file.write('locus_name' + '\t')
 

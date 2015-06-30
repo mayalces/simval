@@ -35,17 +35,28 @@ def simulator():
 	error = ""
 	if request.method == 'POST':
 		print "Entre a If"
-		chrom_quantity = int(request.form['quantity_id']) # cantidad de cromosomas, por defecto 2
-		chrom_size = int(request.form['size_id']) # tamano de cada cromosoma, todos de igual tamano, por defecto 1Morgan
-		pop_size = int(request.form['off_id']) # tamano de la poblacion, por defecto 100
-		marker_size = int(request.form['mark_id']) # Cantidad de marcadores, por defecto 100
-		ploidy = int(request.form['ploidy_id']) # ploidia, por defecto diploides
-		r_rate = float(request.form['r_rate_id']) # tasa de recombinacion, por defecto 0.1
-		m_rate = float(request.form['m_rate_id']) # tasa de mutacion, por defecto 0.001
-		e_rate = int(request.form['e_rate_id']) # porcentaje de poblacion nula, por defecto 5%
-		seed = int(request.form['s_id']) # semilla random, por defecto 2154
-		print "Antes de generate"
-		myzip = generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, m_rate, e_rate, seed)
+		chrom_quantity = int(request.form['quantity_id']) # chromosome quantity, by default 1
+		chrom_size = int(request.form['size_id']) # chromosome size, all with the same size, by default 1 Morgan
+		pop_size = int(request.form['off_id']) # population size, by default 10
+		marker_size = int(request.form['mark_id']) # markers quantity, by default 20
+		ploidy = int(request.form['ploidy_id']) # ploidy, by default 2
+		r_rate = float(request.form['r_rate_id']) # recombination rate, by default 0.1
+		m_rate = float(request.form['m_rate_id']) # mutation rate, by default 0.001
+		e_rate = int(request.form['e_rate_id']) # error rate, by default 10%
+		seed = int(request.form['s_id']) # seed random, by default 2154
+		mapdisto = 'off'
+		onemap = 'off'
+		mstmap = 'off'
+
+		req = request.form.to_dict()
+		if 'mapdisto_id' in req:
+			mapdisto = str(request.form['mapdisto_id']) # checkbox mapdisto
+		if 'onemap_id' in req:
+			onemap = str(request.form['onemap_id']) # checkbox onemap
+		if 'mstmap_id' in req:
+			mstmap = str(request.form['mstmap_id']) # checkbox mstmap
+
+		myzip = generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, m_rate, e_rate, seed, mapdisto, onemap, mstmap)
 	else:
 		error = 'Error!!'
 		
@@ -66,7 +77,7 @@ def validator():
 	return render_template('validator.html', error=error)
 
 
-def generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, m_rate, e_rate, seed):
+def generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, m_rate, e_rate, seed, mapdisto, onemap, mstmap):
 	p = Parent()
 	ch = Offspring()
 	ut = Utilities()
@@ -97,25 +108,30 @@ def generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, 
 	
 	new_pop = ch.mix_offspring(offs_t, pos, mix)
 	#print new_pop
-	
-	result1 = ut.generate_one_map_file(new_pop, mix, "f2", "OneMap" + ".raw")
-	result2 = ut.generate_one_map_file(offs_t, pos, "f2", "ResultOM" + ".raw")
+	if onemap == 'on':
+		result1 = ut.generate_one_map_file(new_pop, mix, "f2", "OneMap" + ".raw")
+		result2 = ut.generate_one_map_file(offs_t, pos, "f2", "ResultOM" + ".raw")
 	#
-	result3 = ut.generate_mst_map_file(new_pop, mix, "MstMap" + ".txt")
-	result4 = ut.generate_mst_map_file(offs_t, pos, "ResultMM" + ".txt")
-	
-	result5 = ut.generate_map_disto_file(new_pop, mix, "MapDisto" + ".xls")
-	result6 = ut.generate_map_disto_file(offs_t, pos, "ResultMD" + ".txt")
+	if mstmap == 'on':
+		result3 = ut.generate_mst_map_file(new_pop, mix, "MstMap" + ".txt")
+		result4 = ut.generate_mst_map_file(offs_t, pos, "ResultMM" + ".txt")
+		
+	if mapdisto == 'on':
+		result5 = ut.generate_map_disto_file(new_pop, mix, "MapDisto" + ".xls")
+		result6 = ut.generate_map_disto_file(offs_t, pos, "ResultMD" + ".txt")
 	
 	zip_file = BytesIO()
 	
 	with zipfile.ZipFile(zip_file, 'a') as myzip:
-		myzip.write('OneMap.raw')
-		myzip.write('ResultOM.raw')
-		myzip.write('MstMap.txt')
-		myzip.write('ResultMM.txt')
-		myzip.write('MapDisto.xls')
-		myzip.write('ResultMD.txt')
+		if onemap == 'on':
+			myzip.write('OneMap.raw')
+			myzip.write('ResultOM.raw')
+		if mstmap == 'on':
+			myzip.write('MstMap.txt')
+			myzip.write('ResultMM.txt')
+		if mapdisto == 'on':
+			myzip.write('MapDisto.xls')
+			myzip.write('ResultMD.txt')
 	
 	zip_file.seek(0)
 		
