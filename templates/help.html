@@ -1,0 +1,90 @@
+{% block body %}
+
+<div class="document" id="geany">
+<h1 class="title">GSGMV</h1>
+<h2 class="subtitle" id="a-fast-light-gtk-ide">A genetic data simulator and genetic map validator</h2>
+<table class="docinfo" frame="void" rules="none">
+<colgroup><col class="docinfo-name">
+<col class="docinfo-content">
+</colgroup><tbody valign="top">
+<tr><th class="docinfo-name">Authors:</th>
+<td> Mayra Alejandra Céspedes - (mayalces@gmail.com) </td></tr>
+<tr><th class="docinfo-name">Date:</th>
+<td>2015-08-27</td></tr>
+<tr><th class="docinfo-name">Version:</th>
+<td>1.0</td></tr>
+</tbody>
+</table>
+<p>Copyright © 2015 <br>
+All rights reserved.
+</p>
+<div class="contents topic" id="contents">
+<p class="topic-title first">Contents</p>
+<ul class="simple">
+<li><a class="reference internal" href="#introduction" id="id7">Introduction</a>
+	<ul>
+		<li><a class="reference internal" href="#about-geany" id="id8">About GSGMV</a></li>
+	</ul>
+</li>
+<li><a class="reference internal" href="#gds" id="id12">Genetic Data Simulator</a>
+	<ul>
+		<li><a class="reference internal" href="#howgds" id="id13">How to simulate genetic data?</a></li>
+	</ul>
+</li>
+<li><a class="reference internal" href="#gmv" id="id14">Genetic Map Validator</a>
+	<ul>
+		<li><a class="reference internal" href="#howgmv" id="id15">How to validate genetic maps?</a></li>
+	</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="introduction">
+<h1><a class="toc-backref" href="#id7">Introduction</a></h1>
+<div class="section" id="about-geany">
+<h2><a class="toc-backref" href="#id8">About GSGMV</a></h2>
+<p>GSGMV is a web tool that allow get genetic data in text files
+with the specific format for MapDisto, OneMap and MSTMap. 
+Also, it allow to validate the genetic maps based on the genetic 
+data simulation. 
+</p>
+<div class="section" id="gds">
+<h1><a class="toc-backref" href="#id12">Genetic Data Simulator</a></h1>
+<div class="section" id="howgds">
+<h2><a class="toc-backref" href="#id13">How to simulate genetic data?</a></h2>
+<p>To simulate genetic data, the user must choose the <b>Simulator</b> tab and must fill the following fields in the form:
+</p>
+<ul class="simple">
+<li>Chromosome quantity</li>
+<li>Chromosome size</li>
+<li>Population size</li>
+<li>Markers quantity</li>
+<li>Ploidy</li>
+<li>Recombination rate</li>
+<li>Mutation rate</li>
+<li>Error rate</li>
+<li>Seed</li>
+</ul>
+<p>Once the fields are filled, the user must choose the file format, depending on the tool: 
+MapDisto, OneMap, MSTMap. Finally, the user must click on the <b>Simulate</b> button.
+</p>
+</div>
+<div class="section" id="gmv">
+<h1><a class="toc-backref" href="#id14">Genetic Map Validator</a></h1>
+<div class="section" id="howgmv">
+<h2><a class="toc-backref" href="#id13">How to validate genetic maps?</a></h2>
+<p>To validate genetic maps, the user must choose the <b>Validator</b> tab and must fill the following fields in the form:
+</p>
+<ul class="simple">
+<li>Upload Genetic Map File</li>
+<li>Upload Simulated Genetic Map File</li>
+<li>Choose the comparison criteria</li>
+	<ul>
+		<li>Edit Distance</li>
+		<li>Kendall Tau</li>
+		<li>Graphic Comparison</li>
+	</ul>
+</ul>
+<p>Once the fields are filled, the user must click on the <b>Validate</b> button.
+</p>
+</div>
+{% endblock %}

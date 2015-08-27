@@ -105,7 +105,7 @@ class Offspring():
                         #print "when 0: ", gamete_r
 
                 num_ini = num_loci
-                num_loci += num_loci
+                num_loci += markers_quantity
 
             gam_result.append(list(gamete_r))
             #print "gam_result: ", gam_result
@@ -182,77 +182,49 @@ if __name__ == '__main__':
     ch = Offspring()
     ut = Utilities()
     v = Validator()
-    seed1 = [2154, 324]
-    individual_size = 100
+    seed = [2154, 324]
+    individual_size = 45  # [50, 100, 200, 300, 500, 1000]
     chromo_size = 1  # chromosome length in Morgans
     ploidy = 2
     choices = [1]
-    chrom_quantity = 2
-    markers_quantity = 100
-    recomb_rate = 0.3
-    p_error = 0
+    chrom_quantity = 1
+    markers_quantity = 200  # [50, 100, 200, 300, 500, 1000]
+    recomb_rate = 0.1
+    p_error = 5
     offs = []
     offsf2 = []
     new_pop = []
-    chrom_positions = [x for x in range(chrom_quantity)]
+    #chrom_positions = [x for x in range(chrom_quantity)]
 
-    np.random.seed(seed1[0])
+    np.random.seed(seed[0])
 
-    # lista = ut.hypred_format("salidaHypred.txt")
-    # lista1 = ch.transform_matrix(lista)
-    # #print len(lista1)
-    #
-    # pos = [x for x in range(40)]
-    # #print pos
-    # mix = list(pos)
-    # np.random.shuffle(mix)
-    # #print mix
-    #
-    # new_pop = ch.mix_offspring(lista1, pos, mix)
-    # #print new_pop
-    #
-    # result1 = ut.generate_one_map_file(new_pop, mix, "f2", "OneMap" + ".raw")
-    # result2 = ut.generate_one_map_file(lista1, pos, "f2", "ResultOM" + ".raw")
-    # #
-    # result3 = ut.generate_mst_map_file(new_pop, mix, "MstMap" + ".txt")
-    # result4 = ut.generate_mst_map_file(lista1, pos, "ResultMM" + ".txt")
-    #
-    # result5 = ut.generate_map_disto_file(new_pop, mix, "MapDisto" + ".xls")
-    # result6 = ut.generate_map_disto_file(lista1, pos, "ResultMD" + ".txt")
-
-
-
-    # parent_a = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
-    # parent_b = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
-    #
-    # for i in range(10):
-    #     l = ch.calculate_recomb(parent_a, parent_b, 1, 0.004, 2)
-    #     print l
-
-    for chrom in range(chrom_quantity):
-        chrom_positions[chrom] = list(np.random.sample(markers_quantity))
-        chrom_positions[chrom].sort()
+    #for chrom in range(chrom_quantity):
+    #    chrom_positions[chrom] = list(np.random.sample(markers_quantity))
+    #    chrom_positions[chrom].sort()
 
     #chrom_assigment.sort()
     #print chrom_positions
 
-    chrom_pos_vec = [x for i in chrom_positions for x in i]
+    #chrom_pos_vec = [x for i in chrom_positions for x in i]
     #print chrom_pos_vec
 
-    parent_a = p.generate_parent(markers_quantity * chrom_quantity, ploidy, choices)
+    #parent_a = p.generate_parent(markers_quantity * chrom_quantity, ploidy, choices)
     #parent_a = p.generate_parent_from_file("pruebas/DatosReales/padreArroz1-500.txt")
     #print "generate_parent: ", parent_a
-    parent_b = p.generate_parent_plus(parent_a)
+    #parent_b = p.generate_parent_plus(parent_a)
     #parent_b = p.generate_parent_from_file("pruebas/DatosReales/padreArroz2-500.txt")
     #print "generate_parent_plus: ", parent_b
 
     #recomb = ch.calculate_recomb(parent_a[0], parent_b[0], chrom_quantity, chromo_size, chrom_pos_vec, markers_quantity, recomb_rate, ploidy)
     #print recomb
 
-    offs = ch.generate_offspring_f1(individual_size, parent_a, parent_b, chrom_quantity, chromo_size, chrom_pos_vec, markers_quantity, recomb_rate, ploidy)
+    #offs = ch.generate_offspring_f1(individual_size, parent_a, parent_b, chrom_quantity, chromo_size,
+    #                                chrom_pos_vec, markers_quantity, recomb_rate, ploidy)
     #print offs
 
-    #offsf2 = ch.generate_offspring_fn(offs, chrom_quantity, chromo_size, chrom_pos_vec, markers_quantity, recomb_rate, ploidy)
+    offs, chrom_pos_vec = ut.real_data_format2("pruebas/Escenario4/P2/caroteno.txt")
+
+    offsf2 = ch.generate_offspring_fn(offs, chrom_quantity, chromo_size, chrom_pos_vec, markers_quantity, recomb_rate, ploidy)
     #print offsf2
 
     offs_t = ch.generate_error(p_error, ch.transform_matrix(offs))

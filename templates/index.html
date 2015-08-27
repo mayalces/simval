@@ -5,6 +5,7 @@
 	<ul class="nav nav-tabs">
 		<li><a href="#panel-sim" data-toggle="tab">Simulator</a></li>
 		<li><a href="#panel-val" data-toggle="tab">Validator</a></li>
+		<li><a href="#panel-help" data-toggle="tab">Help</a></li>
 	</ul>
 	<div class="tab-content">
 		<div class="tab-pane fade in active" id="panel-sim">
@@ -15,6 +16,9 @@
 		<div class="tab-pane fade" id="panel-val">
 			<h3>Genetic Map Validator</h3>
 			{% include "validator.html" %} 
+		</div>
+		<div class="tab-pane fade" id="panel-help">
+			{% include "help.html" %} 
 		</div>
 	</div>
 </div>

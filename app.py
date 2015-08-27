@@ -6,7 +6,9 @@ from logic.Offspring import Offspring
 from logic.Utilities import Utilities
 from logic.Validator import Validator
 from io import BytesIO
+from StringIO import StringIO
 from flask import Flask, request, session, g, redirect, url_for, abort, render_template, flash, make_response, Response, send_file
+from werkzeug import FileStorage
 #from wtforms import Form, BooleanField, TextField, PasswordField, validators
  
 # initialization
@@ -67,14 +69,63 @@ def simulator():
 
 @app.route("/#panel-val", methods=['GET','POST'])
 def validator():
-	print "Entre a Val"
 	error = ""
 	if request.method == 'POST':
-		print "Entre a If"
+		file1 = request.files['upload1']
+		if file1:
+			contents = file1.read()
+		file2 = request.files['upload2']
+		if file2:
+			contents2 = file2.read()
+			
+		edit_d = 'off'
+		kendall_t = 'off'
+		graphic_c = 'off'
+
+		req = request.form.to_dict()
+		if 'ed_id' in req:
+			edit_d = str(request.form['ed_id']) # checkbox edit distance
+		if 'kt_id' in req:
+			kendall_t = str(request.form['kt_id']) # checkbox Kendall Tau
+		if 'gc_id' in req:
+			graphic_c = str(request.form['gc_id']) # checkbox Graphic Comparison	
+		
+		#print columns2
+		#return show_validation(columns, columns2)
+		
 	else:
 		error = 'Error!!'
 	
-	return render_template('validator.html', error=error)
+	return render_template('results.html', title='Results', contents=contents, contents2=contents2, error=error)
+	
+@app.route("/show_validation/<contents>/<contents2>")
+def show_validation(contents, contents2):
+	v = Validator()
+	columns, columns2 = [], []
+		
+	c = contents2.split('\n')
+	
+	for line in c:
+		d = line.split()
+		columns.append(int(d[0]))
+		
+	c = contents.split('\n')
+
+	for line in c:
+		d = line.split()
+		if d[0] == '1':
+			columns2.append(int(d[2]))	
+	
+	c1 = [x for x in columns if x in columns2]
+	print "edit_distance #1: ", v.edit_distance(c1, columns2)
+	print "kendall_tau #1: ", v.kendall_tau_comp(c1, columns2)
+	line = v.linear_regression(c1, columns2)
+	img = StringIO()
+	fig = v.graph_comparison(c1, columns2, 'bo', line, 'r-')
+	fig.savefig(img)
+	img.seek(0)
+	
+	return send_file(img, mimetype='image/png')
 
 
 def generate(chrom_quantity, chrom_size, pop_size, marker_size, ploidy, r_rate, m_rate, e_rate, seed, mapdisto, onemap, mstmap):
