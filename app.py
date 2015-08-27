@@ -110,11 +110,11 @@ def show_validation(contents, contents2):
 		columns.append(int(d[0]))
 		
 	c = contents.split('\n')
+	print c
 
 	for line in c:
 		d = line.split()
-		if d[0] == '1':
-			columns2.append(int(d[2]))	
+		columns2.append(int(d[1]))	
 	
 	c1 = [x for x in columns if x in columns2]
 	print "edit_distance #1: ", v.edit_distance(c1, columns2)
